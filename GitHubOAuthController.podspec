@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
 
   s.platform     = :ios, "8.0"
 
-  s.source       = { :git => "https://github.com/friedbunny/GitHubOAuthController.git", :tag => s.version.to_s }
+  s.source       = { :git => "https://github.com/friedbunny/GitHubOAuthController.git", :commit => "bac12464008222e796aeed624c62b84d054f25f3" }
  
   s.source_files  = "GitHubOAuthController/*"
    
