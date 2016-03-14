@@ -6,7 +6,10 @@
 //
 
 #import "GitHubOAuthController.h"
+
+#ifdef GITHUB_OAUTH_ENABLE_1PASSWORD
 #import "OnePasswordExtension.h"
+#endif
 
 NSString *gh_url_authorize = @"https://github.com/login/oauth/authorize";
 NSString *gh_url_token = @"https://github.com/login/oauth/access_token";
@@ -21,8 +24,11 @@ NSString *gh_application_json = @"application/json";
 @property (nonatomic, strong) UIView *spinnerView;
 
 @property (nonatomic, strong) UIBarButtonItem *closeButton;
-@property (nonatomic, strong) UIBarButtonItem *onePasswordButton;
 @property (nonatomic) BOOL modal;
+
+#ifdef GITHUB_OAUTH_ENABLE_1PASSWORD
+@property (nonatomic, strong) UIBarButtonItem *onePasswordButton;
+#endif
 
 @property (nonatomic, strong) NSString *clientSecret;
 @property (nonatomic, strong) NSString *clientId;
@@ -45,11 +51,13 @@ NSString *gh_application_json = @"application/json";
     self.spinnerView = [[UIView alloc] init];
     UIActivityIndicatorView *indicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
 
+#ifdef GITHUB_OAUTH_ENABLE_1PASSWORD
     if ([[OnePasswordExtension sharedExtension] isAppExtensionAvailable]) {
         NSBundle *onepasswordExtensionResourcesBundle = [NSBundle bundleWithPath:[[NSBundle bundleForClass:[OnePasswordExtension class]] pathForResource:@"OnePasswordExtensionResources" ofType:@"bundle"]];
         UIImage *image = [UIImage imageNamed:@"onepassword-navbar" inBundle:onepasswordExtensionResourcesBundle compatibleWithTraitCollection:nil];
         self.onePasswordButton = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(fillUsing1Password:)];
     }
+#endif
 
     // Subviews
     [self.view addSubview:self.webView];
@@ -88,9 +96,11 @@ NSString *gh_application_json = @"application/json";
     
     self.navigationItem.rightBarButtonItem = self.closeButton;
 
+#ifdef GITHUB_OAUTH_ENABLE_1PASSWORD
     if (self.onePasswordButton) {
         self.navigationItem.leftBarButtonItem = self.onePasswordButton;
     }
+#endif
 }
 
 + (instancetype)sharedInstance {
@@ -234,12 +244,15 @@ NSString *gh_application_json = @"application/json";
 
 #pragma mark - 1Password
 
+#ifdef GITHUB_OAUTH_ENABLE_1PASSWORD
 - (void)fillUsing1Password:(id)sender {
-    [[OnePasswordExtension sharedExtension] fillItemIntoWebView:self.webView forViewController:self sender:sender showOnlyLogins:NO completion:^(BOOL success, NSError *error) {
-        if (!success) {
+    [[OnePasswordExtension sharedExtension] fillItemIntoWebView:self.webView forViewController:self sender:sender showOnlyLogins:YES completion:^(BOOL success, NSError *error) {
+        // Ignore Code=0 "1Password Extension was cancelled by the user"
+        if (!success && error.code != 0) {
             NSLog(@"Failed to fill into webview: <%@>", error);
         }
     }];
 }
+#endif
 
 @end

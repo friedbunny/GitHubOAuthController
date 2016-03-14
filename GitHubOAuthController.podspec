@@ -3,7 +3,7 @@ Pod::Spec.new do |s|
 
   s.name         = "GitHubOAuthController"
   s.version      = "0.3.0"
-  s.summary      = "Simple GitHub OAuth Controller with 1Password support"
+  s.summary      = "Simple GitHub OAuth Controller"
 
   s.homepage     = "https://github.com/friedbunny/GitHubOAuthController"
 
@@ -20,6 +20,15 @@ Pod::Spec.new do |s|
    
   s.requires_arc = true
 
-  s.dependency "1PasswordExtension", "~> 1.8"
+  s.default_subspec = 'Plain'
+
+  s.subspec 'Plain' do |plain|
+  # Default: don't include any subspec
+  end
+
+  s.subspec '1Password' do |onepassword|
+	onepassword.xcconfig = { 'OTHER_CFLAGS' => '$(inherited) -GITHUB_OAUTH_ENABLE_1PASSWORD' }
+	onepassword.dependency '1PasswordExtension', '~> 1.8'
+  end
 
 end
