@@ -93,8 +93,6 @@ NSString *gh_application_json = @"application/json";
     }
 }
 
-#pragma mark Safari view controller
-
 + (instancetype)sharedInstance {
     static id _sharedInstance = nil;
     static dispatch_once_t onceToken;
@@ -104,6 +102,8 @@ NSString *gh_application_json = @"application/json";
     
     return _sharedInstance;
 }
+
+#pragma mark Safari view controller
 
 - (NSURL *)authUrl
 {
