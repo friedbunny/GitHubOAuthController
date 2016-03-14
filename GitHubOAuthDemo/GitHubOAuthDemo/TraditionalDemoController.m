@@ -51,7 +51,9 @@
         UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
         [alertController addAction:action];
         [self presentViewController:alertController animated:YES completion:nil];
-    } failure:nil];
+    } failure:^(NSError *error) {
+        NSLog(@"traditional oauth failed: %@", error);
+    }];
     
     [oAuthController showModalFromController:self];
 }
