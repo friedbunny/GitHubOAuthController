@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
 
   s.platform     = :ios, "8.0"
 
-  s.source       = { :git => "https://github.com/friedbunny/GitHubOAuthController.git", :commit => "bac12464008222e796aeed624c62b84d054f25f3" }
+  s.source       = { :git => "https://github.com/friedbunny/GitHubOAuthController.git", :commit => "f582a5bfb72f32d014787c347523a11c71d5a4fe" }
  
   s.source_files  = "GitHubOAuthController/*"
    
@@ -27,7 +27,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec '1Password' do |onepassword|
-	onepassword.xcconfig = { 'OTHER_CFLAGS' => '$(inherited) -GITHUB_OAUTH_ENABLE_1PASSWORD' }
+	onepassword.xcconfig = { 'OTHER_CFLAGS' => '-DGITHUB_OAUTH_ENABLE_1PASSWORD' }
 	onepassword.dependency '1PasswordExtension', '~> 1.8'
   end
 
