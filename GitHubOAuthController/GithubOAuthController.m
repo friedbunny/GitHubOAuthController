@@ -40,7 +40,7 @@ NSString *gh_application_json = @"application/json";
     self = [super init];
     
     // Init
-    self.closeButton = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStylePlain target:self action:@selector(gh_close)];
+    self.closeButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(gh_close)];
     self.webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
     self.spinnerView = [[UIView alloc] init];
     UIActivityIndicatorView *indicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
